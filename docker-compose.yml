@@ -1,0 +1,59 @@
+version: '3'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  db:
+    image: mongo
+    container_name: db
+    restart: unless-stopped
+    env_file: 
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_DATABASE_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_DATABASE_PASSWORD
+    ports:
+      - $DB_PORT:$DB_PORT
+    networks:
+      - app-network
+      
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    env_file:
+      - .env
+    ports:
+        - $ADMIN_PANEL_PORT:$ADMIN_PANEL_PORT
+    environment:
+        - ME_CONFIG_MONGODB_SERVER=db
+        - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGO_DATABASE_USERNAME
+        - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_DATABASE_PASSWORD
+        - ME_CONFIG_BASICAUTH_USERNAME=$ME_CONFIG_BASICAUTH_USERNAME
+        - ME_CONFIG_BASICAUTH_PASSWORD=$ME_CONFIG_BASICAUTH_PASSWORD
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  foodcast-vote:
+    build: .
+    depends_on:
+      - db
+    volumes: 
+      - ./:/app
+    restart: always
+    env_file: 
+      - .env
+    environment:
+      - MONGO_DATABASE_USERNAME=$MONGO_DATABASE_USERNAME
+      - MONGO_DATABASE_PASSWORD=$MONGO_DATABASE_PASSWORD
+      - MONGO_DATABASE_HOSTNAME=$MONGO_DATABASE_HOSTNAME
+      - MONGO_DATABASE_PORT=$MONGO_DATABASE_PORT
+      - MONGO_DATABASE_NAME=$MONGO_DATABASE_NAME
+      - APP_PORT=$APP_PORT
+    ports:
+      - $APP_PORT:$APP_PORT
+    networks:
+      - app-network

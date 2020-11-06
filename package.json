@@ -1,0 +1,22 @@
+{
+  "name": "express-odata",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Forfxout/express-odata",
+  "author": "Vadim <forfxout@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node src/index.js",
+    "prod:start": "docker-compose -up -d",
+    "prod:restart": "docker-compose restart"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.12",
+    "uuid": "^8.3.1",
+    "ws": "^7.3.1"
+  }
+}
