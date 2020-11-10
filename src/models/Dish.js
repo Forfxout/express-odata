@@ -1,37 +1,32 @@
-const mongoose = require('mongoose');
-const { collection } = require('./Restaurant');
-const uuid = require('uuid').v4
+const mongoose = require('mongoose')
 
-const dish = new mongoose.Schema(
+const Dish = new mongoose.Schema(
   {
-    name: {
-      type: String
-    },
-    by: {
-      type: String
-    },
-    image: {
-      type: String
-    },
-    stock: {
-      type: Number
-    },
-    left: {
-      type: Number
-    },
-    step: {
-      type: Number
-    },
-    price: {
-      type: Number
+    name: String,
+    description: String,
+    by: String,
+    image: String,
+    stock: Number,
+    left: Number,
+    step: Number,
+    max: Number,
+    min: Number,
+    cost: Number,
+    yelp: String,
+    links: {
+      instagram: String,
+      facebook: String,
+      linkedin: String,
+      twitter: String
     }
   },
-  { collection: 'dishes' }
+  { collection: 'Dishes' }
 )
 
-dish.virtual('cost')
-  .get(function () {
-    return price - (this.stock - this.left) * step 
-  })
+Dish.pre('save', function (next) {
+  this.min = this.max - this.stock * this.step
+  this.cost = this.max - (this.stock - this.left) * this.step
+  next()
+})
 
-module.exports = mongoose.model('dish', dish)
+module.exports = mongoose.model('Dish', Dish)

@@ -10,23 +10,33 @@ const
   app = express(),
   Restaurant = require('./models/Restaurant'),
   Application = require('./models/Application'),
+  Dish = require('./models/Dish'),
+  Order = require('./models/Order'),
   mockRestaurant = require('./constants').restaurant,
   mockApplication = require('./constants').application,
+  mockDishes = require('./constants').dishes,
+  expressWs = require('express-ws')(app),
   routes = require('./routes/v1');
 
+mongoose.set('useFindAndModify', false);
 app.use(cors())
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use(bodyparser.json())
 app.use('/v1', routes)
 
 async function seed () {
-  const restaurant = new Restaurant({ ...mockRestaurant })
-  await restaurant.save()
+  await Restaurant.create({ ...mockRestaurant })
+  for(let i = mockDishes.length; i--;) {
+    await Dish.create({ ...mockDishes[i] })
+  }
+
+  const dishesIds = (await Dish.find({})).map(x => x._id)
+
+  const id = (await Restaurant.find({}))[0]._id 
+  await Restaurant.updateOne({ _id: id }, { $set: { dishes: dishesIds }})
   
   const info = new Application({ ...mockApplication })
   await info.save()
-  
-  console.log('Seed successfull')
 }
 
 async function main () {
@@ -34,14 +44,20 @@ async function main () {
   const uri = `mongodb://${process.env.MONGO_DATABASE_USERNAME}:${process.env.MONGO_DATABASE_PASSWORD}@db:${process.env.MONGO_DATABASE_PORT}/${process.env.MONGO_DATABASE_NAME}?authSource=admin`
   
   await app.listen(process.env.APP_PORT)
-  try {
-    await mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, connectTimeoutMS: 5000 })
-    console.log(`App is running on port ${process.env.APP_PORT}`)
-  } catch (e) {
-    console.log(e)
-  }
-
+  await mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true, connectTimeoutMS: 5000 })
   await seed()
+  
+  console.log(`App is running on port ${process.env.APP_PORT}`)
+  
+  app.ws('/echo', function(ws, req) {
+    req.app.on('new-order', async function () {
+      Dish.find({}).then((data) => {
+        ws.send(JSON.stringify(data))
+      })
+    })
+
+    ws.send('connected')
+  })
 }
 
 main()

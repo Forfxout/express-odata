@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const order = new mongoose.Schema(
+const Order = new mongoose.Schema(
   {
     phone: {
       type: String
@@ -18,7 +18,7 @@ const order = new mongoose.Schema(
       type: Array
     }
   },
-  { collection: 'orders' }
+  { collection: 'Orders' }
 )
 
-module.exports = mongoose.model('order', order)
+module.exports = mongoose.model('Order', Order)

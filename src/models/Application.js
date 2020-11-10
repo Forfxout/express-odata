@@ -1,23 +1,13 @@
 const mongoose = require('mongoose');
-const { collection } = require('./Restaurant');
-const uuid = require('uuid').v4
 
-const application = new mongoose.Schema(
+const Application = new mongoose.Schema(
   {
-    location: {
-      type: String
-    },
-    phone: {
-      type: String
-    },
-    email: {
-      type: String
-    },
-    questions: {
-      type: Array
-    }
+    location: String,
+    phone: String,
+    email: String,
+    questions: Array
   },
-  { collection: 'application' }
+  { collection: 'Application' }
 )
 
-module.exports = mongoose.model('application', application)
+module.exports = mongoose.model('Application', Application)

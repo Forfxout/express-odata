@@ -23,43 +23,59 @@ module.exports = {
     name: 'Bevri',
     description: 'which means "a lot" in Georgian) is the Bay Area\'s only Georgian restaurant, famous for its hot gooey cheese bread khachapuri, juicy and flavorful dumplings khinkali, mouth-watering grilled meats and, of course, unique luscious Georgian wines. Today Bevri shows us 5 exclusive dishes you can vote for and get on Monday.',
     ends: '2020-11-06T23:59:42Z',
-    dishes: [
-      {
-        id: 0,
-        name: 'Khinkali 1',
-        by: 'Bevri Restaurant (Palo Alto)',
-        image: 'https://www.przyslijprzepis.pl/media/cache/default_medium/uploads/media/recipe/0007/06/chinkali-gruzinskie-pierozki_1.jpeg',
-        left: 15,
-        step: 0.5,
-        price: 20,
-        stock: 20,
-        cost: 17.5
-      },
-      {
-        id: 1,
-        name: 'Khinkali 2',
-        by: 'Bevri Restaurant (Palo Alto)',
-        image: 'https://www.przyslijprzepis.pl/media/cache/default_medium/uploads/media/recipe/0007/06/chinkali-gruzinskie-pierozki_1.jpeg',
-        left: 10,
-        step: 1.5,
-        price: 20,
-        stock: 20,
-        cost: 5
-      },
-      {
-        id: 2,
-        name: 'Khinkali 3',
-        by: 'Bevri Restaurant (Palo Alto)',
-        image: 'https://www.przyslijprzepis.pl/media/cache/default_medium/uploads/media/recipe/0007/06/chinkali-gruzinskie-pierozki_1.jpeg',
-        left: 15,
-        step: 1,
-        price: 20,
-        stock: 20,
-        cost: 15
-      }
-    ],
+    dishes: [],
     yelp: 'https://google.com',
     location: 'Bevri is located in Palo Alto',
     image: 'https://airport.by/media/cache/ckeditor_big/upload/images/9a38263bfaf2dae69da2056b483a150a.jpg'
-  }
+  },
+  dishes: [
+    {
+      name: 'Khinkali 1',
+      description: 'adasdddaadassad',
+      by: 'Bevri Restaurant (Palo Alto)',
+      image: 'https://www.przyslijprzepis.pl/media/cache/default_medium/uploads/media/recipe/0007/06/chinkali-gruzinskie-pierozki_1.jpeg',
+      left: 15,
+      step: 0.5,
+      max: 30,
+      stock: 20,
+      links: {
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        twitter: 'https://twitter.com',
+        facebook: 'https://facebook.com'
+      }
+    },
+    {
+      name: 'Khinkali 2',
+      description: 'Cold vegetable-walnut pâté, is a perfect vegan appetizer. It can be served as a dip, a spread or on its own. At Bevri you can enjoy this Georgian speciality in two flavors - beet and spinach.',
+      by: 'Bevri Restaurant (Palo Alto)',
+      image: 'https://www.przyslijprzepis.pl/media/cache/default_medium/uploads/media/recipe/0007/06/chinkali-gruzinskie-pierozki_1.jpeg',
+      left: 40,
+      step: 1.5,
+      max: 70,
+      stock: 40,
+      links: {
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        twitter: 'https://twitter.com',
+        facebook: 'https://facebook.com'
+      }
+    },
+    {
+      name: 'Khinkali 3',
+      by: 'Bevri Restaurant (Palo Alto)',
+      description: 'test description',
+      image: 'https://www.przyslijprzepis.pl/media/cache/default_medium/uploads/media/recipe/0007/06/chinkali-gruzinskie-pierozki_1.jpeg',
+      left: 20,
+      step: 1,
+      max: 50,
+      stock: 20,
+      links: {
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        twitter: 'https://twitter.com',
+        facebook: 'https://facebook.com'
+      }
+    }
+  ]
 }

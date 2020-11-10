@@ -1,33 +1,15 @@
 const mongoose = require('mongoose');
-const { collection } = require('./Dish');
-const uuid = require('uuid').v4
 
-const restaurant = new mongoose.Schema(
+const Restaurant = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      default: '0'
-    },
-    name: {
-      type: String
-    },
-    description: {
-      type: String
-    },
-    ends: {
-      type: String
-    },
-    dishes: {
-      type: Array
-    },
-    location: {
-      type: String
-    },
-    image: {
-      type: String
-    }
+    name: String,
+    description: String,
+    ends: String,
+    dishes: Array,
+    location: String,
+    image: String
   },
-  { collation: 'Restaurants' }
+  { collection: 'Restaurants' }
 )
 
-module.exports = mongoose.model('restaurant', restaurant)
+module.exports = mongoose.model('Restaurant', Restaurant)

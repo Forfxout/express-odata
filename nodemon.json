@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": ".js",
   "ignore": [],
-  "exec": "clear && yarn dev"    
+  "exec": "clear && docker-compose restart"    
 }
