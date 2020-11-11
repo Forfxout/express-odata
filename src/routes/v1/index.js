@@ -1,7 +1,8 @@
 const router = require('express').Router()
 
 const { 
-  getRestaurant
+  getRestaurantOfTheWeek,
+  getPastEvents
 } = require('../../controllers/restaurants')
 
 const {
@@ -15,8 +16,11 @@ const {
 router.route('/info')
   .get(getInfo)        
 
+router.route('/events/past')
+  .get(getPastEvents)
+
 router.route('/restaurant/week')
-  .get(getRestaurant)
+  .get(getRestaurantOfTheWeek)
 
 router.route('/orders')
   .post(addOrder)

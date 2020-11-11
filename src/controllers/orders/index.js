@@ -2,15 +2,9 @@ const Dish = require('../../models/Dish')
 const Order = require('../../models/Order')
 const Restaurant = require('../../models/Restaurant')
 
-// Checks if order count is less than dishes left
-const checkOrder = async function(dish, count, stock) {
-  return dish.left >= count
-}
-
 const addOrder = async function(req, res, next) {
   const order = new Order({ ...req.body })
   const dishes = await Dish.find().where('_id').in(order.order.map(x => x.id)).exec()
-
   if (dishes.map(dish => dish.left < order.order.filter(x => x.id === dish._id + '')[0].count).some(outOfStock => outOfStock)) {
     return res.status(400).json({ error: 'Dishes count in the order for one of the dishes is larger than in stock' })
   }
@@ -30,7 +24,7 @@ const addOrder = async function(req, res, next) {
   }
 
   await order.save()
-  req.app.emit('new-order')
+  req.app.emit('new-order', req.body.restaurantId)
   res.status(400).json(await Dish.find({}).exec())
 }
 

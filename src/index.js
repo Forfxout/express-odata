@@ -12,7 +12,7 @@ const
   Application = require('./models/Application'),
   Dish = require('./models/Dish'),
   Order = require('./models/Order'),
-  mockRestaurant = require('./constants').restaurant,
+  mockRestaurants = require('./constants').restaurants,
   mockApplication = require('./constants').application,
   mockDishes = require('./constants').dishes,
   expressWs = require('express-ws')(app),
@@ -25,16 +25,14 @@ app.use(bodyparser.json())
 app.use('/v1', routes)
 
 async function seed () {
-  await Restaurant.create({ ...mockRestaurant })
+  for(let i = mockRestaurants.length; i--;) {
+    await Restaurant.create({ ...mockRestaurants[i] })
+  }
+  
   for(let i = mockDishes.length; i--;) {
     await Dish.create({ ...mockDishes[i] })
   }
 
-  const dishesIds = (await Dish.find({})).map(x => x._id)
-
-  const id = (await Restaurant.find({}))[0]._id 
-  await Restaurant.updateOne({ _id: id }, { $set: { dishes: dishesIds }})
-  
   const info = new Application({ ...mockApplication })
   await info.save()
 }
@@ -50,8 +48,8 @@ async function main () {
   console.log(`App is running on port ${process.env.APP_PORT}`)
   
   app.ws('/echo', function(ws, req) {
-    req.app.on('new-order', async function () {
-      Dish.find({}).then((data) => {
+    req.app.on('new-order', async function (id) {
+      Dish.find({ restaurantId: id }).then((data) => {
         ws.send(JSON.stringify(data))
       })
     })
