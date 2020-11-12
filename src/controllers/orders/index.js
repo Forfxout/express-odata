@@ -25,7 +25,9 @@ const addOrder = async function(req, res, next) {
 
   await order.save()
   req.app.emit('new-order', req.body.restaurantId)
-  res.status(400).json(await Dish.find({}).exec())
+  Dish.find({ restaurantId: req.body.restaurantId }).then((data) => {
+    res.status(200).json(data)
+  })
 }
 
 module.exports = {
